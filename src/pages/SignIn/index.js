@@ -1,15 +1,6 @@
 import React from 'react';
 import { Form, Input } from '@rocketseat/unform';
-import {
-  Button,
-  CardContent,
-  Checkbox,
-  Divider,
-  FormControl,
-  FormControlLabel,
-  TextField,
-  Typography,
-} from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import logo from '~/assets/logo.svg';
 import { Content, Card } from './styles';
 

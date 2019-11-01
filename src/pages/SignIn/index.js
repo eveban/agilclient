@@ -28,7 +28,6 @@ export default function SignIn() {
             type="password"
             placeholder="Sua senha secreta"
           />
-          <Button>Olá</Button>
         </Form>
       </Card>
     </Content>

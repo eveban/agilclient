@@ -20,7 +20,7 @@ export default function SignIn() {
     <Content>
       <Card>
         <img src={logo} alt="GoBarber" />
-        <Typography>LOGIN TO YOUR ACCOUNT</Typography>
+        <Typography>César é Gay</Typography>
         <Form name="loginForm" onSubmit={handleSubmit}>
           <Input name="email" type="email" placeholder="Seu e-mail" />
           <Input

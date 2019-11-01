@@ -1,6 +1,7 @@
 import React from 'react';
-import { Form, Input, Button } from '@rocketseat/unform';
+import { Form, Input } from '@rocketseat/unform';
 import {
+  Button,
   CardContent,
   Checkbox,
   Divider,
@@ -27,7 +28,6 @@ export default function SignIn() {
             type="password"
             placeholder="Sua senha secreta"
           />
-          <Button>Entrar</Button>
         </Form>
       </Card>
     </Content>

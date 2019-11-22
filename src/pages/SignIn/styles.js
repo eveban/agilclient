@@ -1,14 +1,18 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
 
-export const Content = styled.div`
+export const Container = styled.div`
   width: 100%;
   max-width: 315px;
   text-align: center;
+  img {
+    height: 90px;
+    opacity: 50%;
+  }
   form {
     display: flex;
     flex-direction: column;
-    margin-top: 30px;
+    margin-top: 10px;
     input {
       background: rgba(0, 0, 0, 0.1);
       border: 0;
@@ -30,7 +34,7 @@ export const Content = styled.div`
     button {
       margin: 5px 0 0;
       height: 44px;
-      background: #3b9eff;
+      background: #333;
       font-weight: bold;
       color: #fff;
       border: 0;

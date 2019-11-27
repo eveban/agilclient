@@ -1,18 +1,36 @@
 import styled from 'styled-components';
 import { darken } from 'polished';
 
+export const Panel = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 500px;
+  height: 430px;
+  background-color: #7e8ba3;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2),
+    0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 6px 10px 0 rgba(0, 0, 0, 0.14);
+  -moz-box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2),
+    0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 6px 10px 0 rgba(0, 0, 0, 0.14);
+  box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2), 0 1px 18px 0 rgba(0, 0, 0, 0.12),
+    0 6px 10px 0 rgba(0, 0, 0, 0.14);
+`;
+
 export const Container = styled.div`
-  width: 100%;
-  max-width: 315px;
+  width: 330px;
+  padding: 0px;
   text-align: center;
   img {
-    height: 90px;
-    opacity: 50%;
+    width: 250px;
+    opacity: 60%;
   }
   form {
     display: flex;
     flex-direction: column;
-    margin-top: 10px;
+    margin-top: 20px;
     input {
       background: rgba(0, 0, 0, 0.1);
       border: 0;

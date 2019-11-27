@@ -23,7 +23,6 @@ export default function SignIn() {
   }
   return (
     <Panel>
-      {' '}
       <Container>
         <img src={logo} alt="agil" />
         <Form schema={schema} onSubmit={handleSubmit}>

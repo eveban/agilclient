@@ -7,7 +7,7 @@ export const Panel = styled.div`
   align-items: center;
   width: 500px;
   height: 430px;
-  background-color: #7e8ba3;
+  background-color: #ffffff;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
   border-radius: 4px;
@@ -25,22 +25,22 @@ export const Container = styled.div`
   text-align: center;
   img {
     width: 250px;
-    opacity: 60%;
+    opacity: 80%;
   }
   form {
     display: flex;
     flex-direction: column;
     margin-top: 20px;
     input {
-      background: rgba(0, 0, 0, 0.1);
+      background: rgba(0, 0, 0, 0.2);
       border: 0;
       border-radius: 4px;
       height: 44px;
       padding: 0 15px;
-      color: #fff;
+      color: rgba(0, 0, 0, 0.8);
       margin: 0 0 10px;
       &::placeholder {
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(0, 0, 0, 0.5);
       }
     }
     span {
@@ -62,6 +62,12 @@ export const Container = styled.div`
       &:hover {
         background: ${darken(0.03, '#3b9eff')};
       }
+      -webkit-box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2),
+        0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 6px 10px 0 rgba(0, 0, 0, 0.14);
+      -moz-box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2),
+        0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 6px 10px 0 rgba(0, 0, 0, 0.14);
+      box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2),
+        0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 6px 10px 0 rgba(0, 0, 0, 0.14);
     }
     a {
       color: #fff;

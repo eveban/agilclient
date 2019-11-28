@@ -12,12 +12,8 @@ export default function Dashboard() {
   }
   return (
     <Container>
-      <h1>Dashboard</h1>
-      <Form>
-        <button type="button" onClick={handleSignOut}>
-          Sair do GoBarber
-        </button>
-      </Form>
+      <h2>Bem vindo ao Sistema Agillitas de Gestão.</h2>
+      <Form />
     </Container>
   );
 }

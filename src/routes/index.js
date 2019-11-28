@@ -7,6 +7,8 @@ import SignUp from '../pages/SignUp';
 
 import Dashboard from '../pages/Dashboard';
 import Perfil from '../pages/Perfil';
+import EmptyPage from '../pages/EmptyPage';
+import FormDemo from '../pages/FormDemo';
 
 export default function Routes() {
   return (
@@ -15,6 +17,8 @@ export default function Routes() {
       <Route path="/register" component={SignUp} />
       <Route path="/dashboard" component={Dashboard} isPrivate />
       <Route path="/perfil" component={Perfil} isPrivate />
+      <Route path="/empty" component={EmptyPage} isPrivate />
+      <Route path="/forms" component={FormDemo} isPrivate />
     </Switch>
   );
 }

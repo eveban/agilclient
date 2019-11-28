@@ -3,6 +3,9 @@ import classNames from 'classnames';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
+import { withRouter } from 'react-router';
+import DomHandler from 'primereact/components/utils/DomHandler';
+import { ScrollPanel } from 'primereact/components/scrollpanel/ScrollPanel';
 import { AppTopbar } from './AppTopbar';
 import { AppFooter } from './AppFooter';
 import { AppMenu } from './AppMenu';
@@ -13,15 +16,13 @@ import Routes from './routes';
 import history from './services/history';
 
 import { store, persistor } from './store';
-import DomHandler from 'primereact/components/utils/DomHandler';
-import { ScrollPanel } from 'primereact/components/scrollpanel/ScrollPanel';
-import { withRouter } from 'react-router';
+
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/timegrid/main.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeflex/primeflex.css';
-import './ripple.js';
+import './ripple';
 
 import GlobalStyle from './styles/global';
 
@@ -30,7 +31,8 @@ class App extends Component {
     super();
     this.state = {
       activeTopbarItem: null,
-      layoutMode: 'overlay',
+      // layoutMode: 'overlay',
+      layoutMode: 'static',
       mobileMenuActive: null,
       topbarMenuActive: null,
       currentRoute: null,

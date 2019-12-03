@@ -34,15 +34,15 @@ export default class Rota extends Component {
       data: new Date(),
       places: [],
     };
-    this.loadEnderecos = this.loadEnderecos.bind(this);
-    this.getEnderecosPosition = this.getEnderecosPosition.bind(this);
-    this.handleDateChange = this.handleDateChange.bind(this);
+    // this.loadEnderecos = this.loadEnderecos.bind(this);
+    // this.getEnderecosPosition = this.getEnderecosPosition.bind(this);
+    // this.handleDateChange = this.handleDateChange.bind(this);
   }
 
-  handleDateChange(date) {
+  handleDateChange = date => {
     console.log('Data: ', date);
     this.setState({ data: moment(date, 'dd/MM/YYYY') });
-  }
+  };
 
   setValue(field, event) {
     const object = {};
@@ -54,7 +54,7 @@ export default class Rota extends Component {
     this.setState(object);
   }
 
-  async loadEnderecos() {
+  loadEnderecos = async () => {
     const dataSelected = moment(this.state.data, 'YYYY-MM-DD').format(
       'YYYY-MM-DD'
     );
@@ -72,9 +72,9 @@ export default class Rota extends Component {
     const results = resultList.filter(e => e.endereco != null);
 
     this.setState({ places: results, loading: false });
-  }
+  };
 
-  async getEnderecosPosition(resultList) {
+  getEnderecosPosition = async resultList => {
     // "http://maps.googleapis.com/maps/api/geocode/json?address=Via+do+conhecimento,km1,+Pato+Branco,PR";
     const url = 'https://maps.googleapis.com/maps/api/geocode/json?address=';
     const result = [];
@@ -102,7 +102,7 @@ export default class Rota extends Component {
     await Promise.all(positions);
 
     return result;
-  }
+  };
 
   showMap() {
     return (

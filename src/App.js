@@ -10,10 +10,11 @@ import { AppTopbar } from './AppTopbar';
 import { AppFooter } from './AppFooter';
 import { AppMenu } from './AppMenu';
 import { AppBreadcrumb } from './AppBreadcrumb';
+
+import history from './services/history';
 import './config/ReactotronConfig';
 
 import Routes from './routes';
-import history from './services/history';
 
 import { store, persistor } from './store';
 
@@ -150,6 +151,23 @@ class App extends Component {
     this.menu = [
       { label: 'Dashboard', icon: 'dashboard', to: '/' },
       {
+        label: 'Rotas',
+        icon: 'dashboard',
+
+        items: [
+          {
+            label: 'Rota',
+            icon: 'view_quilt',
+            to: '/rotas',
+          },
+          {
+            label: 'Montagem de Carga',
+            icon: 'view_quilt',
+            to: '/carga',
+          },
+        ],
+      },
+      {
         label: 'Menu Modes',
         icon: 'settings',
         items: [
@@ -163,9 +181,6 @@ class App extends Component {
           {
             label: 'Overlay Menu',
             icon: 'flip_to-front',
-            command: event => {
-              this.setState({ layoutMode: 'overlay' });
-            },
           },
           {
             label: 'Horizontal Menu',

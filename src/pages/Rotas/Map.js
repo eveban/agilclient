@@ -32,12 +32,13 @@ class MapDirectionsRenderer extends Component {
         origin,
         destination,
         waypoints,
-        provideRouteAlternatives: false,
+        //provideRouteAlternatives: false,
         travelMode: google.maps.TravelMode.DRIVING,
         optimizeWaypoints: true,
+        avoidHighways: true,
       },
       (result, status) => {
-        if (status === google.maps.DirectionsStatus.OK) {
+        if (status === google.maps.DirectionsStatus.OK) {          
           this.setState({
             directions: result,
           });

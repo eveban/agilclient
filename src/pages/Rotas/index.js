@@ -86,20 +86,29 @@ export default class Rota extends Component {
       item.numero = row.cliente.numero;
       item.bairro = row.cliente.bairro;
       item.cidade = row.cliente.cidade;
-      const response = await axios.get(
-        `${url + item.endereco},${item.numero},${item.cidade}${googleKeyGeo}`
-      );
-      try {
-        item.latitude = response.data.results[0].geometry.location.lat;
-        item.longitude = response.data.results[0].geometry.location.lng;
-      } catch (e) {
-        item.latitude = 0;
-        item.longitude = 0;
+      if (row.entrega.latitude !== null) {
+        item.latitude = Number(row.entrega.latitude);
+        item.longitude = Number(row.entrega.longitude);
+      } else {
+        const response = await axios.get(
+          `${url + item.endereco},${item.numero},${item.cidade}${googleKeyGeo}`
+        );
+        try {
+          item.latitude = response.data.results[0].geometry.location.lat;
+          item.longitude = response.data.results[0].geometry.location.lng;
+        } catch (e) {
+          item.latitude = 0;
+          item.longitude = 0;
+        }
       }
       result.push(item);
     });
 
     await Promise.all(positions);
+
+    result.sort(function (a, b) {
+      return a.longitude < b.longitude ? -1 : a.longitude > b.longitude ? 1 : 0;
+    });
 
     return result;
   };

@@ -106,7 +106,7 @@ export default class Rota extends Component {
 
     await Promise.all(positions);
 
-    result.sort(function(a, b) {
+    result.sort(function (a, b) {
       return a.longitude < b.longitude ? -1 : a.longitude > b.longitude ? 1 : 0;
     });
 

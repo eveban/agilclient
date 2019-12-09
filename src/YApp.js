@@ -1,28 +1,22 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
-import { Route } from 'react-router-dom';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
+import { Router } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import DomHandler from 'primereact/components/utils/DomHandler';
 import { ScrollPanel } from 'primereact/components/scrollpanel/ScrollPanel';
-import { withRouter } from 'react-router';
 import { AppTopbar } from './AppTopbar';
 import { AppFooter } from './AppFooter';
 import { AppMenu } from './AppMenu';
 import { AppBreadcrumb } from './AppBreadcrumb';
 
-import { Dashboard } from '../../../components/Dashboard';
-import Rotas from '../../../components/Rotas';
-import { FormsDemo } from '../../../components/FormsDemo';
-import { SampleDemo } from '../../../components/SampleDemo';
-import { DataDemo } from '../../../components/DataDemo';
-import { PanelsDemo } from '../../../components/PanelsDemo';
-import { OverlaysDemo } from '../../../components/OverlaysDemo';
-import { MenusDemo } from '../../../components/MenusDemo';
-import { MessagesDemo } from '../../../components/MessagesDemo';
-import { ChartsDemo } from '../../../components/ChartsDemo';
-import { MiscDemo } from '../../../components/MiscDemo';
-import { EmptyPage } from '../../../components/EmptyPage';
-import { UtilsDemo } from '../../../components/UtilsDemo';
-import { Documentation } from '../../../components/Documentation';
+import history from './services/history';
+import './config/ReactotronConfig';
+
+import Routes from './routes';
+
+import { store, persistor } from './store';
 
 import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
@@ -31,15 +25,18 @@ import 'primereact/resources/primereact.min.css';
 import 'primeflex/primeflex.css';
 import './ripple';
 
+import GlobalStyle from './styles/global';
+
 class App extends Component {
   constructor() {
     super();
     this.state = {
       activeTopbarItem: null,
-      layoutMode: 'static', // 'overlay',
+      // layoutMode: 'overlay',
+      layoutMode: 'static',
       mobileMenuActive: null,
       topbarMenuActive: null,
-      // currentRoute: null,
+      currentRoute: null,
       menuActive: false,
     };
 
@@ -154,6 +151,23 @@ class App extends Component {
     this.menu = [
       { label: 'Dashboard', icon: 'dashboard', to: '/' },
       {
+        label: 'Rotas',
+        icon: 'dashboard',
+
+        items: [
+          {
+            label: 'Rota',
+            icon: 'view_quilt',
+            to: '/rotas',
+          },
+          {
+            label: 'Montagem de Carga',
+            icon: 'view_quilt',
+            to: '/carga',
+          },
+        ],
+      },
+      {
         label: 'Menu Modes',
         icon: 'settings',
         items: [
@@ -167,9 +181,6 @@ class App extends Component {
           {
             label: 'Overlay Menu',
             icon: 'flip_to-front',
-            command: event => {
-              this.setState({ layoutMode: 'overlay' });
-            },
           },
           {
             label: 'Horizontal Menu',
@@ -192,21 +203,6 @@ class App extends Component {
           },
         ],
       },
-
-      {
-        label: 'Rotas',
-        icon: 'dashboard',
-        items: [
-          { label: 'Rotas', icon: 'hourglass_empty', to: '/rotas' },
-          {
-            label: 'Montagem de Carga',
-            icon: 'flight_land',
-            url: 'assets/pages/landing.html',
-            target: '_blank',
-          },
-        ],
-      },
-
       {
         label: 'Colors',
         icon: 'palette',
@@ -691,76 +687,72 @@ class App extends Component {
     const AppBreadCrumbWithRouter = withRouter(AppBreadcrumb);
 
     return (
-      <div className={wrapperClass} onClick={this.onWrapperClick}>
-        <div
-          ref={el => (this.sidebar = el)}
-          className={sidebarClassName}
-          onClick={this.onSidebarClick}
-          onMouseEnter={this.onSidebarMouseEnter}
-          onMouseLeave={this.onSidebarMouseLeave}
-        >
-          <div className="sidebar-logo">
-            <button className="p-link">
-              <img alt="logo" src="assets/layout/images/logo-slim.png" />
-              <span className="app-name">SERENITY</span>
-            </button>
-            <button
-              className="p-link sidebar-anchor"
-              title="Toggle Menu"
-              onClick={this.onToggleMenuClick}
-            >
-              {' '}
-            </button>
-          </div>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <Router history={history}>
+            <div className={wrapperClass} onClick={this.onWrapperClick}>
+              <div
+                ref={el => (this.sidebar = el)}
+                className={sidebarClassName}
+                onClick={this.onSidebarClick}
+                onMouseEnter={this.onSidebarMouseEnter}
+                onMouseLeave={this.onSidebarMouseLeave}
+              >
+                <div className="sidebar-logo">
+                  <button className="p-link">
+                    <img alt="logo" src="assets/layout/images/logo-slim.png" />
+                    <span className="app-name">SERENITY</span>
+                  </button>
+                  <button
+                    className="p-link sidebar-anchor"
+                    title="Toggle Menu"
+                    onClick={this.onToggleMenuClick}
+                  >
+                    {' '}
+                  </button>
+                </div>
 
-          <ScrollPanel
-            ref={el => (this.layoutMenuScroller = el)}
-            style={{ height: '100%' }}
-          >
-            <div className="layout-menu-container">
-              <AppMenu
-                model={this.menu}
-                onRootMenuItemClick={this.onRootMenuItemClick}
-                layoutMode={this.state.layoutMode}
-                active={this.state.menuActive}
-                onMenuItemClick={this.onMenuItemClick}
-              />
+                <ScrollPanel
+                  ref={el => (this.layoutMenuScroller = el)}
+                  style={{ height: '100%' }}
+                >
+                  <div className="layout-menu-container">
+                    <AppMenu
+                      model={this.menu}
+                      onRootMenuItemClick={this.onRootMenuItemClick}
+                      layoutMode={this.state.layoutMode}
+                      active={this.state.menuActive}
+                      onMenuItemClick={this.onMenuItemClick}
+                    />
+                  </div>
+                </ScrollPanel>
+              </div>
+              <div className="layout-main">
+                <AppTopbar
+                  layoutMode={this.state.layoutMode}
+                  activeTopbarItem={this.state.activeTopbarItem}
+                  onTopbarItemClick={this.onTopbarItemClick}
+                  onMenuButtonClick={this.onMenuButtonClick}
+                  onTopbarMobileMenuButtonClick={
+                    this.onTopbarMobileMenuButtonClick
+                  }
+                  topbarMenuActive={this.state.topbarMenuActive}
+                />
+                <AppBreadCrumbWithRouter />
+                <div className="layout-content">
+                  <Routes />
+                  <GlobalStyle />
+                </div>
+                <AppFooter />
+
+                {this.state.mobileMenuActive && (
+                  <div className="layout-main-mask" />
+                )}
+              </div>
             </div>
-          </ScrollPanel>
-        </div>
-        <div className="layout-main">
-          <AppTopbar
-            layoutMode={this.state.layoutMode}
-            activeTopbarItem={this.state.activeTopbarItem}
-            onTopbarItemClick={this.onTopbarItemClick}
-            onMenuButtonClick={this.onMenuButtonClick}
-            onTopbarMobileMenuButtonClick={this.onTopbarMobileMenuButtonClick}
-            topbarMenuActive={this.state.topbarMenuActive}
-          />
-
-          <AppBreadCrumbWithRouter />
-          <div className="layout-content">
-            <Route path="/" exact component={Dashboard} />
-            <Route path="/rotas" component={Rotas} />
-            <Route path="/sample" component={SampleDemo} />
-            <Route path="/forms" component={FormsDemo} />
-            <Route path="/data" component={DataDemo} />
-            <Route path="/panels" component={PanelsDemo} />
-            <Route path="/overlays" component={OverlaysDemo} />
-            <Route path="/menus" component={MenusDemo} />
-            <Route path="/messages" component={MessagesDemo} />
-            <Route path="/charts" component={ChartsDemo} />
-            <Route path="/misc" component={MiscDemo} />
-            <Route path="/empty" component={EmptyPage} />
-            <Route path="/utils" component={UtilsDemo} />
-            <Route path="/documentation" component={Documentation} />
-          </div>
-
-          <AppFooter />
-
-          {this.state.mobileMenuActive && <div className="layout-main-mask" />}
-        </div>
-      </div>
+          </Router>
+        </PersistGate>
+      </Provider>
     );
   }
 }

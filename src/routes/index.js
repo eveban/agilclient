@@ -6,7 +6,7 @@ import SignIn from '../pages/SignIn';
 
 import SignUp from '../pages/SignUp';
 
-import Dashboard from '../pages/Dashboard';
+import Dashboard from '~/pages/Dashboard';
 import Perfil from '../pages/Perfil';
 import EmptyPage from '../pages/EmptyPage';
 import FormDemo from '../pages/FormDemo';

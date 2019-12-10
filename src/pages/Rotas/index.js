@@ -25,6 +25,7 @@ const googleMapsApiKey = 'AIzaSyBmCWe3wRDMOT07OUJEXKUusMWbNEgcHaY';
 const googleKeyGeo = '&key=AIzaSyBmCWe3wRDMOT07OUJEXKUusMWbNEgcHaY';
 
 export default class Rota extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -106,7 +107,7 @@ export default class Rota extends Component {
 
     await Promise.all(positions);
 
-    result.sort(function(a, b) {
+    result.sort(function (a, b) {
       return a.longitude < b.longitude ? -1 : a.longitude > b.longitude ? 1 : 0;
     });
 
@@ -128,6 +129,22 @@ export default class Rota extends Component {
         />
       )
     );
+  }
+
+  saveRoutes() {
+    const listRoutes = this.state.places.map((ite, index) => ({
+      codcfo: ite.codcfo,
+      data: new Date(),
+      ordem: index,
+      romaneio: this.state.nroRomaneio
+    }))
+
+    const url = 'http://187.9.38.146:3333/rotas';
+    const response = axios.post(url, { listRoutes })
+      .then(res => {
+        console.logs(res);
+        console.log(res.data);
+      });
   }
 
   render() {
@@ -160,17 +177,30 @@ export default class Rota extends Component {
             />
           </MuiPickersUtilsProvider>
         </div>
-        <div>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() =>
-              this.setState({ loading: true }, () => this.loadEnderecos())
-            }
-          >
-            Carregar
+        <div style={{ display: 'flex', flexDirection: "column"}}>
+          <div>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() =>
+                this.setState({ loading: true }, () => this.loadEnderecos())
+              }
+            >
+              Carregar
           </Button>
+          </div>
+
+          <div>
+            <Button
+              variant="contained"
+              color="secundary"
+              onClick={() => this.saveRoutes()}
+            >
+              Salvar
+          </Button>
+          </div>
         </div>
+
         <div>
           <Paper>
             <Table>

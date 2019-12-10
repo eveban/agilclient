@@ -130,6 +130,28 @@ export default class Rota extends Component {
     );
   }
 
+  saveRoutes() {
+
+    const dateSelected = moment(this.state.data).format('YYYY-MM-DD');
+
+    const listRoutes = this.state.places.map((ite, index) => ({
+      codcfo: ite.codcfo,
+      data: moment(this.state.data).format('YYYY-MM-DD'),
+      ordem: index + 1,
+      romaneio: this.state.nroRomaneio
+    }));
+
+    const url = 'http://187.9.38.146:3333/rotas';
+
+    const response = axios.post(url, { listRoutes}, { params: { idRomaneio: this.state.nroRomaneio, data: dateSelected}})
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      }).catch(error => {
+        console.log(error)
+      });
+  }
+
   render() {
     return (
       <div>
@@ -160,17 +182,31 @@ export default class Rota extends Component {
             />
           </MuiPickersUtilsProvider>
         </div>
-        <div>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() =>
-              this.setState({ loading: true }, () => this.loadEnderecos())
-            }
-          >
-            Carregar
+
+        <div style={{ display: 'flex', marginRight: '20px', flexDirection: "row" }}>
+          <div>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() =>
+                this.setState({ loading: true }, () => this.loadEnderecos())
+              }
+            >
+              Carregar
           </Button>
+          </div>
+
+          <div>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => this.saveRoutes()}
+            >
+              Gravar
+          </Button>
+          </div>
         </div>
+
         <div>
           <Paper>
             <Table>

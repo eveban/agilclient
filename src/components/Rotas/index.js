@@ -143,7 +143,7 @@ export default class Rota extends Component {
 
     const url = 'http://187.9.38.146:3333/rotas';
 
-    const response = axios.post(url, { listRoutes}, { params: { idRomaneio: this.state.nroRomaneio, data: dateSelected}})
+    const response = api.post(url, { listRoutes })
       .then(res => {
         console.log(res);
         console.log(res.data);

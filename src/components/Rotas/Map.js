@@ -15,7 +15,7 @@ class MapDirectionsRenderer extends Component {
   };
 
   componentDidMount() {
-    const { places, initial } = this.props;
+    const { places, initial, setPlacesOrder } = this.props;
 
     const waypoints = places.map(p => ({
       location: { lat: p.latitude, lng: p.longitude },
@@ -38,7 +38,9 @@ class MapDirectionsRenderer extends Component {
         avoidHighways: true,
       },
       (result, status) => {
-        if (status === google.maps.DirectionsStatus.OK) {          
+        if (status === google.maps.DirectionsStatus.OK) {     
+          console.log(">>>> MAPA: ", result);
+          setPlacesOrder(result.routes[0].waypoint_order);
           this.setState({
             directions: result,
           });
@@ -75,6 +77,7 @@ const Map = withScriptjs(
         places={props.markers}
         travelMode={google.maps.TravelMode.DRIVING}
         initial={props.initial}
+        setPlacesOrder={props.setPlacesOrder}
       />
     </GoogleMap>
   ))

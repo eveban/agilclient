@@ -33,14 +33,14 @@ export default class Rota extends Component {
       nroRomaneio: '',
       data: new Date(),
       places: [],
+      placesOrder: [],
     };
     // this.loadEnderecos = this.loadEnderecos.bind(this);
     // this.getEnderecosPosition = this.getEnderecosPosition.bind(this);
-    // this.handleDateChange = this.handleDateChange.bind(this);
+    this.setPlacesOrder = this.setPlacesOrder.bind(this);
   }
 
   handleDateChange = date => {
-    console.log('Data: ', date);
     this.setState({ data: moment(date, 'dd/MM/YYYY') });
   };
 
@@ -125,6 +125,7 @@ export default class Rota extends Component {
           defaultCenter={{ lat: -22.667122, lng: -47.673231 }}
           initial={this.state.origin[0]}
           defaultZoom={11}
+          setPlacesOrder={this.setPlacesOrder}
         />
       )
     );
@@ -134,10 +135,10 @@ export default class Rota extends Component {
 
     const dateSelected = moment(this.state.data).format('YYYY-MM-DD');
 
-    const listRoutes = this.state.places.map((ite, index) => ({
+    const listRoutes = this.state.placesOrder.map(ite => ({
       codcfo: ite.codcfo,
       data: moment(this.state.data).format('YYYY-MM-DD'),
-      ordem: index + 1,
+      ordem: ite.index,
       romaneio: this.state.nroRomaneio
     }));
 
@@ -150,6 +151,24 @@ export default class Rota extends Component {
       }).catch(error => {
         console.log(error)
       });
+  }
+
+  setPlacesOrder(placesOrder) {
+    let resultFinal = this.state.places;
+
+    for (var i = 0; i <= placesOrder.length; i++) {
+      if (placesOrder[i] === undefined) {
+        resultFinal[i]['index'] = placesOrder.length;
+      } else {
+        resultFinal[i]['index'] = placesOrder[i];
+      }
+    }
+
+    resultFinal.sort(function (a, b) {
+      return a.index < b.index ? -1 : a.index > b.index ? 1 : 0;
+    });
+
+    this.setState({ placesOrder: resultFinal });
   }
 
   render() {
@@ -222,7 +241,7 @@ export default class Rota extends Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.places.map(row => (
+                {this.state.placesOrder.map(row => (
                   <TableRow key={row.codcfo}>
                     <TableCell component="th" scope="row">
                       {row.codcfo}

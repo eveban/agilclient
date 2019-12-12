@@ -39,6 +39,9 @@ class MapDirectionsRenderer extends Component {
       },
       (result, status) => {
         if (status === google.maps.DirectionsStatus.OK) {
+
+          console.log(">>> Mapa: ", result);
+          
           this.setState({
             directions: result,
           });

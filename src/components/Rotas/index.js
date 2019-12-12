@@ -138,7 +138,7 @@ export default class Rota extends Component {
     const listRoutes = this.state.placesOrder.map(ite => ({
       codcfo: ite.codcfo,
       data: moment(this.state.data).format('YYYY-MM-DD'),
-      ordem: ite.index,
+      ordem: ite.index + 1,
       romaneio: this.state.nroRomaneio
     }));
 

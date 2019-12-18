@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {CarService} from '../service/CarService';
 import {Panel} from 'primereact/components/panel/Panel';
 import {Checkbox} from 'primereact/components/checkbox/Checkbox';
 import {Button} from 'primereact/components/button/Button';
@@ -119,7 +118,7 @@ export class Dashboard extends Component {
         };
         this.onTaskChange = this.onTaskChange.bind(this);
         this.onCityChange = this.onCityChange.bind(this);
-        this.carservice = new CarService();
+       // this.carservice = new CarService();
     }
 
     onTaskChange(e) {

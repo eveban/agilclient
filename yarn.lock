@@ -9138,6 +9138,13 @@ react-google-maps@^9.4.5:
     scriptjs "^2.5.8"
     warning "^3.0.0"
 
+react-grid-system@^6.0.7:
+  version "6.0.7"
+  resolved "https://registry.yarnpkg.com/react-grid-system/-/react-grid-system-6.0.7.tgz#f393771207c4d541da06c88b99c532cfc2b6ef8f"
+  integrity sha512-bNF8M4v8r/VgcZ052qOXgmi8E6lLRavijrVDVyGA3moTt+cU15DgJH5t0YTuKUxtbDcup9e1ePsDRk9CbOZOfg==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-hooks@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/react-hooks/-/react-hooks-1.0.1.tgz#e62197c38cd8d0703060f791234f7f4698aa7c44"

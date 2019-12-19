@@ -38,21 +38,18 @@ export default function RotaCity() {
     console.log('ResultList =>', resultList);
   };
 
-  const handleChange = e => {
-    setCodigo({ [e.target.name]: e.target.value.toUpperCase() });
-  };
 
   return (
     <>
       <Row>
         <Col sm={3}>
           <TextField
-            id="txtCodigo"
+            name="codigo"
             label="Código"
             value={codigo}
             margin="normal"
             autoFocus
-            onChange={handleChange}
+            onChange={e => setCodigo(e.target.value)}
           />
         </Col>
 

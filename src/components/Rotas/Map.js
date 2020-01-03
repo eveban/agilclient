@@ -38,8 +38,8 @@ class MapDirectionsRenderer extends Component {
         avoidHighways: true,
       },
       (result, status) => {
-        if (status === google.maps.DirectionsStatus.OK) {     
-          console.log(">>>> MAPA: ", result);
+        if (status === google.maps.DirectionsStatus.OK) {   
+          
           setPlacesOrder(result.routes[0].waypoint_order);
           this.setState({
             directions: result,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, GoogleApiWrapper, Marker} from 'google-maps-react';
+import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 import TextField from '@material-ui/core/TextField';
 import { Row, Col } from 'react-grid-system';
 import Button from '@material-ui/core/Button';
@@ -16,28 +16,32 @@ export class RotaCity extends Component {
     super(props);
 
     this.state = {
-      stores: [], codigo: '', loading: false, latCenter: 0, lngCenter: 0,
-    }
+      stores: [],
+      codigo: '',
+      loading: false,
+      latCenter: 0,
+      lngCenter: 0,
+    };
   }
 
   callMap = async () => {
     const resultList = await api.get(`clientes?codigo=${this.state.codigo}`);
 
-    const points = resultList.data.map(ite => ({
-      codcfo: ite.codcfo,
-      latitude: Number(ite.entrega.latitude),
-      longitude: Number(ite.entrega.longitude)
-
-    })).filter(e => e.longitude != null && e.longitude != 0)
+    const points = resultList.data
+      .map(ite => ({
+        codcfo: ite.codcfo,
+        latitude: Number(ite.entrega.latitude),
+        longitude: Number(ite.entrega.longitude),
+      }))
+      .filter(e => e.longitude != null && e.longitude != 0);
 
     this.setState({
       stores: points,
       latCenter: points[0] !== undefined ? points[0].latitude : 0,
       lngCenter: points[0] !== undefined ? points[0].longitude : 0,
-      loading: points.length > 0
-    })
+      loading: points.length > 0,
+    });
   };
-
 
   showMap() {
     return (
@@ -46,20 +50,23 @@ export class RotaCity extends Component {
           google={this.props.google}
           zoom={15}
           style={mapStyles}
-          className={'map'}
+          className="map"
           initialCenter={{
             lat: this.state.latCenter,
-            lng: this.state.lngCenter
-          }}>
-          {
-            this.state.stores.map((store, index) =>
-              <Marker id={index} title={store.codcfo} position={{
+            lng: this.state.lngCenter,
+          }}
+        >
+          {this.state.stores.map((store, index) => (
+            <Marker
+              id={index}
+              label={store.codcfo}
+              title={store.codcfo}
+              position={{
                 lat: store.latitude,
-                lng: store.longitude
-              }}>
-              </Marker>
-            )
-          }
+                lng: store.longitude,
+              }}
+            />
+          ))}
         </Map>
       )
     );
@@ -81,19 +88,22 @@ export class RotaCity extends Component {
           </Col>
 
           <Col sm={3}>
-            <Button onClick={() => this.callMap()} variant="contained" color="primary">
+            <Button
+              onClick={() => this.callMap()}
+              variant="contained"
+              color="primary"
+            >
               Carregar
-          </Button>
+            </Button>
           </Col>
         </Row>
 
         <div>{this.state.loading && this.showMap()}</div>
-
       </div>
     );
   }
 }
 
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyBmCWe3wRDMOT07OUJEXKUusMWbNEgcHaY'
+  apiKey: 'AIzaSyBmCWe3wRDMOT07OUJEXKUusMWbNEgcHaY',
 })(RotaCity);

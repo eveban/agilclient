@@ -254,7 +254,6 @@ export default class Rota extends Component {
                     <TableCell component="th" scope="row">
                       {row.codcfo}
                     </TableCell>
-                    <TableCell align="left">{row.idmov}</TableCell>
                     <TableCell align="left">{row.endereco}</TableCell>
                     <TableCell align="right">{row.numero}</TableCell>
                     <TableCell align="left">{row.bairro}</TableCell>

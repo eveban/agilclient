@@ -8,7 +8,7 @@
     "@fullcalendar/daygrid": "4.0.1",
     "@fullcalendar/interaction": "4.0.1",
     "@fullcalendar/timegrid": "4.0.1",
-    "@material-ui/core": "^4.5.2",
+    "@material-ui/core": "^4.8.3",
     "@material-ui/pickers": "^3.2.8",
     "@material-ui/styles": "^4.5.2",
     "@rocketseat/unform": "^1.6.1",

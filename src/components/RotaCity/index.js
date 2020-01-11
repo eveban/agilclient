@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import { Row, Col } from 'react-grid-system';
 import Button from '@material-ui/core/Button';
 import api from '~/services/api';
+import Map from './MapDirectionsRenderer';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -28,14 +29,24 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+const googleMapsApiKey = 'AIzaSyBmCWe3wRDMOT07OUJEXKUusMWbNEgcHaY';
+
 export default function RotaCity() {
   const classes = useStyles();
   const [codigo, setCodigo] = useState('');
+  const [places, setPlaces] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const callMap = async () => {
     const resultList = await api.get(`clientes?codigo=${codigo}`);
 
-    console.log('ResultList =>', resultList);
+    const resultPlaces = resultList.data.map(ite => ({
+      latitude: Number(ite.entrega.latitude),
+      longitude: Number(ite.entrega.longitude)
+    })).filter(e => e.longitude != null)
+
+    setPlaces(resultPlaces);
+    setLoading(true);
   };
 
 
@@ -57,6 +68,20 @@ export default function RotaCity() {
           <Button onClick={callMap} variant="contained" color="primary">
             Carregar
           </Button>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col sm={12}>
+          {loading !== false && (
+            <Map
+              googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=geometry,drawing,places`}
+              places={places}
+              loadingElement={<div style={{ height: `100%` }} />}
+              containerElement={<div style={{ height: '80vh' }} />}
+              mapElement={<div style={{ height: `100%` }} />}              
+              defaultZoom={11}              
+            />)}
         </Col>
       </Row>
     </>

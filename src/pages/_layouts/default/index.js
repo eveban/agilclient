@@ -145,7 +145,7 @@ class App extends Component {
 
       {
         label: 'Rotas',
-        icon: 'dashboard',
+        icon: 'local_shipping',
         items: [
           { label: 'Rotas', icon: 'directions_bus', to: '/rotas' },
           { label: 'Mapa Clientes', icon: 'room', to: '/RotaCity' },

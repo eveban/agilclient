@@ -1,89 +1,119 @@
-import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
+import {Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 import TextField from '@material-ui/core/TextField';
 import { Row, Col } from 'react-grid-system';
 import Button from '@material-ui/core/Button';
 import api from '~/services/api';
-import Map from './MapDirectionsRenderer';
 
-const useStyles = makeStyles(theme => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  textField: {
-    marginLeft: theme.spacing(0),
-    marginRight: theme.spacing(0),
-  },
-  dense: {
-    marginTop: theme.spacing(2),
-  },
-  menu: {
-    width: 200,
-  },
-  root: {
-    padding: theme.spacing(3, 5),
-  },
-  button: {
-    margin: theme.spacing(1),
-  },
-}));
+const mapStyles = {
+  width: '100%',
+  height: '100%',
+  position: 'relative',
+};
 
 const googleMapsApiKey = 'AIzaSyBmCWe3wRDMOT07OUJEXKUusMWbNEgcHaY';
 
-export default function RotaCity() {
-  const classes = useStyles();
-  const [codigo, setCodigo] = useState('');
-  const [places, setPlaces] = useState([]);
-  const [loading, setLoading] = useState(false);
+const icon = { url: "http://maps.google.com/mapfiles/ms/icons/red.png",                
+               scaledSize: { width: 62, height: 62 }, 
+               labelOrigin: {x: 29, y: 18} 
+};
 
-  const callMap = async () => {
-    const resultList = await api.get(`clientes?codigo=${codigo}`);
+export class RotaCity extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      stores: [],
+      codigo: '',
+      loading: false,
+      latCenter: 0,
+      lngCenter: 0,
+    };
+  }
 
-    const resultPlaces = resultList.data.map(ite => ({
-      latitude: Number(ite.entrega.latitude),
-      longitude: Number(ite.entrega.longitude)
-    })).filter(e => e.longitude != null)
+  callMap = async () => {
+    const resultList = await api.get(`clientes?codigo=${this.state.codigo}`);
 
-    setPlaces(resultPlaces);
-    setLoading(true);
+    const points = resultList.data
+      .map(ite => ({
+        codcfo: ite.codcfo,
+        latitude: Number(ite.entrega.latitude),
+        longitude: Number(ite.entrega.longitude),
+      }))
+      .filter(e => e.longitude != null && e.longitude != 0);
+
+    this.setState({
+      stores: points,
+      latCenter: points[0] !== undefined ? points[0].latitude : 0,
+      lngCenter: points[0] !== undefined ? points[0].longitude : 0,
+      loading: points.length > 0,
+    });
   };
 
+  showMap() {
+    return (
+      this.state.loading && (
+        <Map
+          google={this.props.google}
+          zoom={15}
+          style={mapStyles}
+          className="map"
+          initialCenter={{
+            lat: this.state.latCenter,
+            lng: this.state.lngCenter,
+          }}
+        >
+          {this.state.stores.map((store, index) => (
+            <Marker
+              id={index}
+              label={{text: store.codcfo !== undefined ? store.codcfo.substring(3,7) : '', color: "white", fontFamily: "Arial", fontSize: '12px' }}
+              title={store.codcfo !== undefined ? store.codcfo : '' }
+              position={{
+                lat: store.latitude,
+                lng: store.longitude,
+              }}             
+              icon={icon}
+              
+            />
+          ))}
+        </Map>
+      )
+    );
+  }
 
-  return (
-    <>
-      <Row>
-        <Col sm={3}>
-          <TextField
-            name="codigo"
-            label="Código"
-            value={codigo}
-            margin="normal"
-            autoFocus
-            onChange={e => setCodigo(e.target.value)}
-          />
-        </Col>
+  render() {
+    return (
+      <div>
+        <Row>
+          <Col sm={3}>
+            <TextField
+              name="codigo"
+              label="Código"
+              value={this.state.codigo}
+              margin="normal"
+              autoFocus
+              onChange={e => this.setState({ codigo: e.target.value })}
+            />
+          </Col>
+        </Row>
 
-        <Col sm={3}>
-          <Button onClick={callMap} variant="contained" color="primary">
-            Carregar
-          </Button>
-        </Col>
-      </Row>
+        <Row>
+          <Col sm={3}>
+            <Button
+              onClick={() => this.callMap()}
+              variant="contained"
+              color="primary"
+            >
+              Carregar
+            </Button>
+          </Col>
+        </Row>
 
-      <Row>
-        <Col sm={12}>
-          {loading !== false && (
-            <Map
-              googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${googleMapsApiKey}&libraries=geometry,drawing,places`}
-              places={places}
-              loadingElement={<div style={{ height: `100%` }} />}
-              containerElement={<div style={{ height: '80vh' }} />}
-              mapElement={<div style={{ height: `100%` }} />}              
-              defaultZoom={11}              
-            />)}
-        </Col>
-      </Row>
-    </>
-  );
+        <div>{this.state.loading && this.showMap()}</div>
+      </div>
+    );
+  }
 }
+
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyBmCWe3wRDMOT07OUJEXKUusMWbNEgcHaY',
+})(RotaCity);

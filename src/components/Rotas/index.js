@@ -81,6 +81,7 @@ export default class Rota extends Component {
 
     const positions = resultList.map(async row => {
       const item = new Object();
+      item.idmov = row.idmov;
       item.codcfo = row.cliente.codcfo;
       item.endereco = row.cliente.rua;
       item.numero = row.cliente.numero;
@@ -106,7 +107,7 @@ export default class Rota extends Component {
 
     await Promise.all(positions);
 
-    result.sort(function (a, b) {
+    result.sort(function(a, b) {
       return a.longitude < b.longitude ? -1 : a.longitude > b.longitude ? 1 : 0;
     });
 
@@ -132,39 +133,44 @@ export default class Rota extends Component {
   }
 
   saveRoutes() {
+    const { data, placesOrder, nroRomaneio } = this.state;
+    // const dateSelected = moment(data).format('YYYY-MM-DD');
 
-    const dateSelected = moment(this.state.data).format('YYYY-MM-DD');
-
-    const listRoutes = this.state.placesOrder.map(ite => ({
+    const listRoutes = placesOrder.map(ite => ({
       codcfo: ite.codcfo,
-      data: moment(this.state.data).format('YYYY-MM-DD'),
+      data: moment(data).format('YYYY-MM-DD'),
       ordem: ite.index + 1,
-      romaneio: this.state.nroRomaneio
+      romaneio: nroRomaneio,
+      idmov: ite.idmov,
     }));
-
+    console.log(listRoutes);
     const url = 'http://187.9.38.146:3333/rotas';
 
-    const response = api.post(url, { listRoutes })
+    const response = api
+      .post(url, { listRoutes })
       .then(res => {
         console.log(res);
         console.log(res.data);
-      }).catch(error => {
-        console.log(error)
+      })
+      .catch(error => {
+        console.log(error);
       });
   }
 
   setPlacesOrder(placesOrder) {
-    let resultFinal = this.state.places;
+    const resultFinal = this.state.places;
 
-    for (var i = 0; i <= placesOrder.length; i++) {
+    console.log(resultFinal);
+
+    for (let i = 0; i <= placesOrder.length; i++) {
       if (placesOrder[i] === undefined) {
-        resultFinal[i]['index'] = placesOrder.length;
+        resultFinal[i].index = placesOrder.length;
       } else {
-        resultFinal[i]['index'] = placesOrder[i];
+        resultFinal[i].index = placesOrder[i];
       }
     }
 
-    resultFinal.sort(function (a, b) {
+    resultFinal.sort(function(a, b) {
       return a.index < b.index ? -1 : a.index > b.index ? 1 : 0;
     });
 
@@ -202,7 +208,9 @@ export default class Rota extends Component {
           </MuiPickersUtilsProvider>
         </div>
 
-        <div style={{ display: 'flex', marginRight: '20px', flexDirection: "row" }}>
+        <div
+          style={{ display: 'flex', marginRight: '20px', flexDirection: 'row' }}
+        >
           <div>
             <Button
               variant="contained"
@@ -212,7 +220,7 @@ export default class Rota extends Component {
               }
             >
               Carregar
-          </Button>
+            </Button>
           </div>
 
           <div>
@@ -222,7 +230,7 @@ export default class Rota extends Component {
               onClick={() => this.saveRoutes()}
             >
               Gravar
-          </Button>
+            </Button>
           </div>
         </div>
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://www.angelelli.com.br:3333',
+  baseURL: 'http://187.9.38.146:3333',
   // 'https://cors-anywhere.herokuapp.com/'+
 });
 

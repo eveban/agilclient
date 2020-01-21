@@ -147,7 +147,7 @@ export default class Rota extends Component {
     const url = 'http://187.9.38.146:3333/rotas';
 
     const response = api
-      .post(url, { listRoutes })
+      .post('/rotas', { listRoutes })
       .then(res => {
         console.log(res);
         console.log(res.data);

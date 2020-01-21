@@ -144,7 +144,7 @@ export default class Rota extends Component {
       idmov: ite.idmov,
     }));
     console.log(listRoutes);
-    const url = 'http://187.9.38.146:3333/rotas';
+    // const url = 'http://187.9.38.146:3333/rotas';
 
     const response = api
       .post('/rotas', { listRoutes })

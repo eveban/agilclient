@@ -53,6 +53,7 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
   },
+  "proxy": "http://187.9.38.146:3333",
   "browserslist": {
     "production": [
       ">0.2%",

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Map, GoogleApiWrapper, Marker } from 'google-maps-react';
+import { Map, GoogleApiWrapper, Marker } from 'google-maps-react';
 import TextField from '@material-ui/core/TextField';
 import { Row, Col } from 'react-grid-system';
 import Button from '@material-ui/core/Button';
@@ -11,11 +11,12 @@ const mapStyles = {
   position: 'relative',
 };
 
-const googleMapsApiKey = 'AIzaSyBmCWe3wRDMOT07OUJEXKUusMWbNEgcHaY';
+// const googleMapsApiKey = 'AIzaSyBmCWe3wRDMOT07OUJEXKUusMWbNEgcHaY';
 
-const icon = { url: "http://maps.google.com/mapfiles/ms/icons/red.png",                
-               scaledSize: { width: 62, height: 62 }, 
-               labelOrigin: {x: 29, y: 18} 
+const icon = {
+  url: 'http://maps.google.com/mapfiles/ms/icons/red.png',
+  scaledSize: { width: 62, height: 62 },
+  labelOrigin: { x: 29, y: 18 },
 };
 
 export class RotaCity extends Component {
@@ -39,7 +40,7 @@ export class RotaCity extends Component {
         latitude: Number(ite.entrega.latitude),
         longitude: Number(ite.entrega.longitude),
       }))
-      .filter(e => e.longitude != null && e.longitude != 0);
+      .filter(e => e.longitude != null && e.longitude !== 0);
 
     this.setState({
       stores: points,
@@ -65,14 +66,21 @@ export class RotaCity extends Component {
           {this.state.stores.map((store, index) => (
             <Marker
               id={index}
-              label={{text: store.codcfo !== undefined ? store.codcfo.substring(3,7) : '', color: "white", fontFamily: "Arial", fontSize: '12px' }}
-              title={store.codcfo !== undefined ? store.codcfo : '' }
+              label={{
+                text:
+                  store.codcfo !== undefined
+                    ? store.codcfo.substring(3, 7)
+                    : '',
+                color: 'white',
+                fontFamily: 'Arial',
+                fontSize: '12px',
+              }}
+              title={store.codcfo !== undefined ? store.codcfo : ''}
               position={{
                 lat: store.latitude,
                 lng: store.longitude,
-              }}             
+              }}
               icon={icon}
-              
             />
           ))}
         </Map>

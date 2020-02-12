@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { Component } from 'react';
 import axios from 'axios';
 import Button from '@material-ui/core/Button';
@@ -25,7 +26,6 @@ const googleMapsApiKey = 'AIzaSyBmCWe3wRDMOT07OUJEXKUusMWbNEgcHaY';
 const googleKeyGeo = '&key=AIzaSyBmCWe3wRDMOT07OUJEXKUusMWbNEgcHaY';
 
 export default class Rota extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -56,15 +56,12 @@ export default class Rota extends Component {
   }
 
   loadEnderecos = async () => {
-    const dataSelected = moment(this.state.data, 'YYYY-MM-DD').format(
-      'YYYY-MM-DD'
-    );
-
-    // const url = `http://187.9.38.146:3333/movimentos?romaneio=${this.state.nroRomaneio}&dataEmissao=${dataSelected}`;
+    const { data, nroRomaneio } = this.state;
+    const dataSelected = moment(data, 'YYYY-MM-DD').format('YYYY-MM-DD');
 
     // Localizando o romaneio
     const romaneio = await api.get(
-      `movimentos?romaneio=${this.state.nroRomaneio}&dataEmissao=${dataSelected}`
+      `movimentos?romaneio=${nroRomaneio}&dataEmissao=${dataSelected}`
     );
 
     // Localizar as latitudes / longitudes de cada endereco do romaneio
@@ -107,7 +104,7 @@ export default class Rota extends Component {
 
     await Promise.all(positions);
 
-    result.sort(function (a, b) {
+    result.sort(function(a, b) {
       return a.longitude < b.longitude ? -1 : a.longitude > b.longitude ? 1 : 0;
     });
 
@@ -132,19 +129,22 @@ export default class Rota extends Component {
   }
 
   saveRoutes() {
-    const listRoutes = this.state.places.map((ite, index) => ({
+    const { places, nroRomaneio } = this.state;
+    const listRoutes = places.map((ite, index) => ({
       codcfo: ite.codcfo,
       data: new Date(),
       ordem: index,
-      romaneio: this.state.nroRomaneio
-    }))
+      romaneio: nroRomaneio,
+    }));
 
     const url = 'http://187.9.38.146:3333/rotas';
-    const response = axios.post(url, { listRoutes })
-      .then(res => {
-        console.logs(res);
-        console.log(res.data);
-      });
+    const response = axios.post(url, { listRoutes }).then(res => {
+      console.log(res);
+
+      console.log(res.data);
+
+      console.log(response);
+    });
   }
 
   render() {
@@ -177,7 +177,7 @@ export default class Rota extends Component {
             />
           </MuiPickersUtilsProvider>
         </div>
-        <div style={{ display: 'flex', flexDirection: "column"}}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div>
             <Button
               variant="contained"
@@ -187,7 +187,7 @@ export default class Rota extends Component {
               }
             >
               Carregar
-          </Button>
+            </Button>
           </div>
 
           <div>
@@ -197,7 +197,7 @@ export default class Rota extends Component {
               onClick={() => this.saveRoutes()}
             >
               Salvar
-          </Button>
+            </Button>
           </div>
         </div>
 

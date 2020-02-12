@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import DomHandler from 'primereact/components/utils/DomHandler';
 import { ScrollPanel } from 'primereact/components/scrollpanel/ScrollPanel';
 import { withRouter } from 'react-router';
-import { AppTopbar } from './AppTopbar';
+// import { AppTopbar } from './AppTopbar';
 import { AppFooter } from './AppFooter';
 import { AppMenu } from './AppMenu';
 import { AppBreadcrumb } from './AppBreadcrumb';
@@ -20,12 +20,14 @@ import 'primereact/resources/primereact.min.css';
 import 'primeflex/primeflex.css';
 import './ripple';
 
+import logo from '../../../assets/agil.png';
+
 class App extends Component {
   constructor() {
     super();
     this.state = {
       activeTopbarItem: null,
-      layoutMode: 'static', // 'overlay',
+      layoutMode: 'overlay', // 'static',
       mobileMenuActive: null,
       topbarMenuActive: null,
       // currentRoute: null,
@@ -213,8 +215,8 @@ class App extends Component {
         >
           <div className="sidebar-logo">
             <button className="p-link">
-              <img alt="logo" src="assets/layout/images/logo-slim.png" />
-              <span className="app-name">SERENITY</span>
+              <img alt="logo" src={logo} />
+              <span className="app-name">AGILLITAS</span>
             </button>
             <button
               className="p-link sidebar-anchor"
@@ -241,14 +243,14 @@ class App extends Component {
           </ScrollPanel>
         </div>
         <div className="layout-main">
-          <AppTopbar
+          {/**   <AppTopbar
             layoutMode={this.state.layoutMode}
             activeTopbarItem={this.state.activeTopbarItem}
             onTopbarItemClick={this.onTopbarItemClick}
             onMenuButtonClick={this.onMenuButtonClick}
             onTopbarMobileMenuButtonClick={this.onTopbarMobileMenuButtonClick}
             topbarMenuActive={this.state.topbarMenuActive}
-          />
+          /> */}
 
           <AppBreadCrumbWithRouter />
           <div className="layout-content">

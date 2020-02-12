@@ -42,5 +42,5 @@ export function AppBreadcrumb({ location }) {
   );
 }
 AppBreadcrumb.propTypes = {
-  match: PropTypes.object,
+  match: PropTypes.shape(),
 };
